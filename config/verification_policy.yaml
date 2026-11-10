@@ -1,0 +1,46 @@
+# Verification policy: default thresholds for the decision table (blueprint section 5.6).
+# These are HYPOTHESES to be tuned on a dev split, never on the locked test split.
+version: "1.0"
+
+# Coverage below this means "we could not look hard enough" -> rule R1 (unverified).
+min_coverage: 0.6
+
+# An origin group counts as "credible" when its weight is at least this value.
+credible_group_threshold: 0.35
+
+# Weight multipliers by directness of the evidence.
+directness_weights:
+  primary: 1.0
+  direct_secondary: 0.7
+  indirect: 0.4
+
+# Temporal flags that make a literally-supported claim misleading (rule R2).
+misleading_temporal_flags:
+  - old_as_new
+  - superseded
+  - missing_qualifier
+
+outdated:
+  min_support_mass: 0.25
+
+contradicted:
+  min_refute_mass: 0.6
+  min_refute_groups: 2
+  max_support_mass: 0.25
+
+strongly_supported:
+  max_refute_mass: 0.15
+  min_groups_with_primary: 2      # counts the primary group itself
+  min_groups_without_primary: 3
+
+supported:
+  min_support_mass: 0.6
+  min_groups: 2
+  max_refute_mass: 0.25
+
+mixed:
+  min_support_mass: 0.35
+  min_refute_mass: 0.35
+
+partially_supported:
+  min_support_mass: 0.35
